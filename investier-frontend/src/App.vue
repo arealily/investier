@@ -1,11 +1,13 @@
 <template>
   <div>
-    <p v-if="msg.length > 0">{{msg}}</p>
+    <p class="uk-flex uk-flex-center uk-flex-middle" v-if="msg.length > 0">{{msg}}</p>
     <p v-else>
       no text
     </p>
-    <input type="text" v-model="msg">
-    <button @click="clear()">clear</button>
+    <form>
+      <input class="uk-input" type="text" v-model="msg">
+      <button class="uk-button uk-button-default" @click="clear()">clear</button>
+    </form>
   </div>
 </template>
 
