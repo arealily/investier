@@ -1,8 +1,11 @@
-use actix_web::{web, get, post, middleware, App, HttpServer, HttpResponse};
-use serde::{Deserialize};
-
+use std::env;
 use std::sync::Mutex;
 use std::collections::HashMap;
+
+use actix_web::{web, get, post, middleware, App, HttpServer, HttpResponse};
+use actix_cors::Cors;
+
+use serde::{Deserialize};
 
 mod stock;
 
@@ -61,18 +64,24 @@ async fn get_stocks(data: web::Data<StockState>) -> HttpResponse {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let state = web::Data::new(StockState::new());
+    let frontend_origin = env::var("FRONTEND_ORIGIN").unwrap();
+    let backend_port = env::var("PORT").unwrap();
 
     HttpServer::new(move || {
+        let cors = Cors::default()
+              .allowed_origin(&frontend_origin);
+
         // move counter into the closure
         App::new()
             .wrap(middleware::Compress::default())
+            .wrap(cors)
             // Note: using app_data instead of data
             .app_data(state.clone()) // <- register the created data
             .service(post_stock)
             .service(get_stocks)
             .service(index)
     })
-    .bind("0.0.0.0:8081")?
+    .bind(format!("0.0.0.0:{}", &backend_port))?
     .run()
     .await
 }
