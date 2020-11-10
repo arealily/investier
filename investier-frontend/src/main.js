@@ -5,7 +5,10 @@ import 'uikit/dist/css/uikit.min.css'
 UIkit.use(Icons)
 
 import { createApp } from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 import store from './stores'
 import App from './App.vue'
 
-createApp(App).use(store).mount('#app')
+createApp(App).use(VueAxios, axios).use(store).mount('#app')

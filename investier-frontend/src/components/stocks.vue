@@ -16,20 +16,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  data () {
-      return {
-          stocks: [
-              {
-                  symbol: "VTI",
-                  amount: "23"
-              },
-              {
-                  symbol: "QQQ",
-                  amount: "4"
-              }
-          ]
-      }
-  }
+    name: 'stocks',
+    computed: {
+      ...mapState(['stocks']),
+    },
+    mounted () {
+       this.$store.dispatch('getCurrentStocks') 
+    },
 }
 </script>
