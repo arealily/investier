@@ -67,7 +67,7 @@ async fn main() -> std::io::Result<()> {
     let frontend_origin = env::var("FRONTEND_ORIGIN").unwrap();
     let backend_port = env::var("PORT").unwrap();
 
-    HttpServer::new(move || {
+    let server = HttpServer::new(move || {
         let cors = Cors::default()
               .allowed_origin(&frontend_origin);
 
@@ -80,8 +80,6 @@ async fn main() -> std::io::Result<()> {
             .service(post_stock)
             .service(get_stocks)
             .service(index)
-    })
-    .bind(format!("0.0.0.0:{}", &backend_port))?
-    .run()
-    .await
+    });
+    server.bind(("0.0.0.0", backend_port.parse().unwrap()))?.run().await
 }

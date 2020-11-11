@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./investier-frontend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./investier-frontend:/app
+    command: npm run serve
+  backend:
+    build:
+        context: ./investier-backend
+        target: developer
+    ports:
+      - "8081:8081"
+    environment:
+        - PORT=8081
+        - FRONTEND_ORIGIN=http://localhost:8080
+    command: cargo run
