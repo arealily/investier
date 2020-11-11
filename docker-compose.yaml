@@ -2,7 +2,9 @@ version: '3'
 
 services:
   frontend:
-    build: ./investier-frontend
+    build:
+        context: ./investier-frontend
+        target: developer
     ports:
       - "8080:8080"
     volumes:

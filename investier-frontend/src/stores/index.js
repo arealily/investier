@@ -14,7 +14,8 @@ export default createStore({
     },
     actions: {
       async getCurrentStocks(context) {
-        const stocks = await axios.get('http://localhost:8081/stocks').then(
+        const backendAPI = process.env.VUE_APP_BACKEND_ENDPOINT
+        const stocks = await axios.get(backendAPI + '/stocks').then(
           (res) => res.data,
           () => []
        )
